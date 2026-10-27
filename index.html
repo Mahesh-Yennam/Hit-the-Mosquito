@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-RFQ8M0VSFN"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-RFQ8M0VSFN');
+  </script>
+
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
+  <title>Hit the Mosquito — Cozy Arcade Reflex Game | Gamility</title>
+
+  <!-- SEO Meta Tags -->
+  <meta name="description" content="Play Hit the Mosquito! Swat buzzing pesky mosquitoes hovering around the cozy evening lamp with your flyswatter, build swat combos, and spare the friendly honeybee!">
+  <meta name="keywords" content="hit the mosquito, mosquito swatter game, reflex arcade game, swatting game, casual web game, gamility games">
+  <meta name="author" content="Gamility">
+  <meta name="robots" content="index, follow">
+  <link rel="canonical" href="https://mahesh-yennam.github.io/Gamility/games/hit-the-mosquito/index.html">
+
+  <!-- OpenGraph -->
+
+  <!-- Favicon & PWA -->
+    <!-- Open Graph / Social Sharing -->
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Hit the Mosquito — Cozy Arcade Reflex Game | Gamility">
+  <meta property="og:description" content="Play Hit the Mosquito! Swat buzzing pesky mosquitoes hovering around the cozy evening lamp with your flyswatter, build swat combos, and spare the friendly honeybee!">
+  <meta property="og:image" content="preview.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta property="og:image:type" content="image/png">
+  <meta property="og:image:alt" content="Hit the Mosquito — Cozy Arcade Reflex Game | Gamility">
+
+  <!-- Twitter Card -->
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Hit the Mosquito — Cozy Arcade Reflex Game | Gamility">
+  <meta name="twitter:description" content="Play Hit the Mosquito! Swat buzzing pesky mosquitoes hovering around the cozy evening lamp with your flyswatter, build swat combos, and spare the friendly honeybee!">
+  <meta name="twitter:image" content="preview.png">
+
+  <link rel="icon" type="image/svg+xml" href="favicon.svg">
+  <link rel="manifest" href="site.webmanifest">
+  <meta name="theme-color" content="#b45309">
+
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;600;700;800;900&family=Plus+Jakarta+Sans:wght@500;600;700&display=swap" rel="stylesheet">
+
+  <!-- Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- =========================================================================
+       TOP GAMILITY RETURN RIBBON
+       ========================================================================= -->
+  <header class="top-nav-ribbon" role="banner">
+    <div class="ribbon-container">
+      <div class="ribbon-left">
+        <a href="https://mahesh-yennam.github.io/Gamility/" class="ribbon-brand" title="Gamility Home" aria-label="Gamility Home">
+          <svg width="22" height="22" viewBox="0 0 40 40" fill="none" aria-hidden="true">
+            <path d="M20 4L4 12V28L20 36L36 28V12L20 4Z" stroke="#f59e0b" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M20 12L12 16V24L20 28L28 24V16L20 12Z" fill="#ec4899" fill-opacity="0.85"/>
+            <circle cx="20" cy="20" r="3" fill="#ffffff"/>
+          </svg>
+          <span class="brand-name">Gamility</span>
+          <span class="brand-badge">Arcade</span>
+        </a>
+      </div>
+      <div class="ribbon-right">
+        <button type="button" class="btn-ribbon-icon" id="btnToggleAudio" aria-label="Toggle Sound" title="Toggle Sound">
+          <span id="audioIcon">🔊</span>
+        </button>
+        <a href="https://mahesh-yennam.github.io/Gamility/games.html" class="ribbon-back-btn" title="Back to All Games">
+          <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+            <line x1="19" y1="12" x2="5" y2="12"></line>
+            <polyline points="12 19 5 12 12 5"></polyline>
+          </svg>
+          <span>Back to Games</span>
+        </a>
+      </div>
+    </div>
+  </header>
+
+  <!-- =========================================================================
+       MAIN GAME CONTAINER & STAGE
+       ========================================================================= -->
+  <main class="arcade-wrapper">
+    <div class="game-viewport" id="gameViewport">
+      
+      <!-- Top HUD Bar -->
+      <header class="game-hud-bar">
+        <!-- Left: Lives / Hearts -->
+        <div class="hud-group hud-lives-group" aria-label="Lives remaining">
+          <span class="hud-lbl">LIVES</span>
+          <div class="hud-hearts" id="hudHearts">
+            <span class="heart-icon active">❤️</span>
+            <span class="heart-icon active">❤️</span>
+            <span class="heart-icon active">❤️</span>
+          </div>
+        </div>
+
+        <!-- Center: Score & Combo -->
+        <div class="hud-group hud-score-group">
+          <span class="hud-lbl">SCORE</span>
+          <div class="hud-score-display">
+            <span class="hud-score-val" id="hudScore">0</span>
+            <span class="hud-combo-badge" id="hudComboBadge" style="display: none;">x1.5</span>
+          </div>
+        </div>
+
+        <!-- Right: High Score & Pause -->
+        <div class="hud-group hud-actions-group">
+          <div class="hud-best-box">
+            <span class="hud-lbl">BEST</span>
+            <span class="hud-best-val" id="hudBestScore">0</span>
+          </div>
+          <button type="button" class="btn-hud-pause" id="btnPauseGame" aria-label="Pause game">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="currentColor">
+              <rect x="6" y="4" width="4" height="16" rx="1.5"></rect>
+              <rect x="14" y="4" width="4" height="16" rx="1.5"></rect>
+            </svg>
+          </button>
+        </div>
+      </header>
+
+      <!-- Room Atmosphere & Ceiling Lamp -->
+      <div class="room-ambient-bg" aria-hidden="true">
+        <!-- Vintage overhead hanging lamp -->
+        <div class="lamp-assembly">
+          <div class="lamp-cord"></div>
+          <div class="lamp-shade"></div>
+          <div class="lamp-bulb"></div>
+          <div class="lamp-glow"></div>
+        </div>
+        <!-- Cozy wall frames / decor silhouettes -->
+        <div class="room-decor-wall">
+          <div class="wall-frame frame-left"></div>
+          <div class="wall-frame frame-right"></div>
+        </div>
+      </div>
+
+      <!-- Active Play Stage (Target Swatting Area) -->
+      <div class="mosquito-stage" id="mosquitoStage">
+        <!-- Mosquitoes and Bees spawn here dynamically -->
+      </div>
+
+      <!-- Visual Decals & Popups Layer (Splats, +100 text, comic stars) -->
+      <div class="fx-overlay" id="fxOverlay" aria-hidden="true"></div>
+
+      <!-- Animated Flyswatter Cursor (follows pointer inside stage) -->
+      <div class="swatter-cursor" id="swatterCursor" aria-hidden="true">
+        <svg viewBox="0 0 80 100" class="swatter-svg" width="80" height="100">
+          <!-- Swatter Mesh Head (Classic Red Grid) -->
+          <rect x="16" y="8" width="48" height="52" rx="10" fill="#dc2626" stroke="#991b1b" stroke-width="2.5" />
+          <!-- Inner Mesh Grid Pattern -->
+          <g stroke="#ffffff" stroke-width="1.2" stroke-opacity="0.6">
+            <line x1="24" y1="8" x2="24" y2="60" />
+            <line x1="32" y1="8" x2="32" y2="60" />
+            <line x1="40" y1="8" x2="40" y2="60" />
+            <line x1="48" y1="8" x2="48" y2="60" />
+            <line x1="56" y1="8" x2="56" y2="60" />
+            <line x1="16" y1="16" x2="64" y2="16" />
+            <line x1="16" y1="25" x2="64" y2="25" />
+            <line x1="16" y1="34" x2="64" y2="34" />
+            <line x1="16" y1="43" x2="64" y2="43" />
+            <line x1="16" y1="52" x2="64" y2="52" />
+          </g>
+          <!-- Neck / Reinforcement -->
+          <path d="M35 60 L45 60 L43 70 L37 70 Z" fill="#b91c1c" />
+          <!-- Long Handle -->
+          <rect x="37" y="70" width="6" height="30" rx="3" fill="#fbbf24" stroke="#d97706" stroke-width="1.5" />
+          <!-- Handle Grip Hole -->
+          <circle cx="40" cy="95" r="1.8" fill="#78350f" />
+        </svg>
+      </div>
+
+      <!-- =========================================================================
+           OVERLAYS & MODALS
+           ========================================================================= -->
+
+      <!-- Start Overlay -->
+      <div class="game-overlay-modal start-overlay" id="startOverlay">
+        <div class="overlay-card">
+          <div class="overlay-icon-badge">
+            <span class="animated-icon">🦟</span>
+          </div>
+          <h1 class="overlay-title">HIT THE MOSQUITO!</h1>
+          <p class="overlay-tagline">Pesky bugs are swarming your cozy reading lamp! Grab your flyswatter and swat them before you get bitten!</p>
+
+          <div class="roster-preview-grid">
+            <div class="roster-item">
+              <span class="roster-ico">🦟</span>
+              <span class="roster-name">Regular</span>
+              <span class="roster-pts">+100</span>
+            </div>
+            <div class="roster-item">
+              <span class="roster-ico">🩸</span>
+              <span class="roster-name">Bloated</span>
+              <span class="roster-pts">+250</span>
+            </div>
+            <div class="roster-item">
+              <span class="roster-ico">🥷</span>
+              <span class="roster-name">Ninja</span>
+              <span class="roster-pts">+400</span>
+            </div>
+            <div class="roster-item">
+              <span class="roster-ico">🌟</span>
+              <span class="roster-name">Queen</span>
+              <span class="roster-pts">+500</span>
+            </div>
+          </div>
+
+          <div class="hazard-warning-pill">
+            <span class="pill-hazard-icon">🐝</span>
+            <div class="pill-hazard-text">
+              <strong>DO NOT SWAT HONEYBEES!</strong>
+              <span>They are friendly pollinators. Swatting them costs 1 Life ❤️!</span>
+            </div>
+          </div>
+
+          <button type="button" class="btn-play-primary" id="btnStartGame">
+            <span class="play-btn-glow"></span>
+            <span class="play-btn-text">SWAT NOW!</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Pause Overlay -->
+      <div class="game-overlay-modal pause-overlay" id="pauseOverlay" style="display: none;">
+        <div class="overlay-card">
+          <div class="overlay-icon-badge">
+            <span>⏸️</span>
+          </div>
+          <h2 class="overlay-title">GAME PAUSED</h2>
+          <p class="overlay-tagline">Take a breath—the mosquitoes will wait!</p>
+
+          <div class="overlay-stats-summary">
+            <div class="stat-pill">
+              <span class="stat-lbl">CURRENT SCORE</span>
+              <span class="stat-val" id="pauseCurrentScore">0</span>
+            </div>
+            <div class="stat-pill">
+              <span class="stat-lbl">STREAK</span>
+              <span class="stat-val" id="pauseStreak">0x</span>
+            </div>
+          </div>
+
+          <div class="overlay-actions">
+            <button type="button" class="btn-play-primary" id="btnResumeGame">
+              <span class="play-btn-text">RESUME</span>
+            </button>
+            <button type="button" class="btn-action-outline" id="btnRestartFromPause">
+              <span>RESTART</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Game Over Overlay -->
+      <div class="game-overlay-modal gameover-overlay" id="gameOverOverlay" style="display: none;">
+        <div class="overlay-card">
+          <div class="overlay-icon-badge badge-gameover">
+            <span id="gameOverBadgeEmoji">🦟</span>
+          </div>
+          <h2 class="overlay-title" id="gameOverTitle">YOU GOT STUNG!</h2>
+          <p class="overlay-tagline" id="gameOverMsg">The swarm got the better of you this time!</p>
+
+          <!-- Scores Comparison -->
+          <div class="gameover-score-banner">
+            <div class="score-col">
+              <span class="col-lbl">FINAL SCORE</span>
+              <span class="col-val" id="goFinalScore">0</span>
+            </div>
+            <div class="score-divider"></div>
+            <div class="score-col">
+              <span class="col-lbl">BEST RECORD</span>
+              <span class="col-val highlight-gold" id="goBestScore">0</span>
+            </div>
+          </div>
+
+          <!-- Extended Performance Stats -->
+          <div class="gameover-stats-grid">
+            <div class="stat-card">
+              <span class="card-icon">🎯</span>
+              <span class="card-val" id="goMosquitoesSwatted">0</span>
+              <span class="card-label">Bugs Swatted</span>
+            </div>
+            <div class="stat-card">
+              <span class="card-icon">🔥</span>
+              <span class="card-val" id="goMaxCombo">0x</span>
+              <span class="card-label">Max Streak</span>
+            </div>
+            <div class="stat-card">
+              <span class="card-icon">⚡</span>
+              <span class="card-val" id="goAccuracy">0%</span>
+              <span class="card-label">Accuracy</span>
+            </div>
+          </div>
+
+          <!-- Action Buttons -->
+          <div class="overlay-actions">
+            <button type="button" class="btn-play-primary" id="btnPlayAgain">
+              <span class="play-btn-glow"></span>
+              <span class="play-btn-text">PLAY AGAIN</span>
+            </button>
+            <a href="https://mahesh-yennam.github.io/Gamility/games.html" class="btn-action-outline">
+              <span>MORE GAMES</span>
+            </a>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Game Logic Script -->
+  <script src="game.js"></script>
+</body>
+</html>

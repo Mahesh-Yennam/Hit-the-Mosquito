@@ -1,0 +1,17 @@
+{
+  "name": "Hit the Mosquito — Flyswatter Arcade Game",
+  "short_name": "Hit Mosquito",
+  "description": "Swat pesky buzzing mosquitoes before they bite! Catch bonus bugs and avoid innocent honeybees.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "background_color": "#78350f",
+  "theme_color": "#f59e0b",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

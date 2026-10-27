@@ -1,0 +1,923 @@
+/* ==========================================================================
+   HIT THE MOSQUITO — COZY ARCADE REFLEX GAME
+   Design System, Cozy Evening Room Styling, Animations & HUD
+   ========================================================================== */
+
+:root {
+  --font-display: 'Outfit', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+
+  /* Theme Palette: Warm Cozy Evening Room */
+  --bg-room-wall: #261715;
+  --bg-room-wall-pattern: #1e1110;
+  --lamp-shade-color: #d97706;
+  --lamp-cord-color: #78350f;
+  --lamp-glow-inner: rgba(253, 224, 71, 0.45);
+  --lamp-glow-outer: rgba(245, 158, 11, 0);
+
+  /* Accents & Brand */
+  --accent-red: #ef4444;
+  --accent-amber: #f59e0b;
+  --accent-gold: #fbbf24;
+  --accent-bee: #facc15;
+  --hud-bg: rgba(20, 11, 10, 0.85);
+  --hud-border: rgba(245, 158, 11, 0.25);
+  --card-bg: rgba(30, 17, 15, 0.94);
+  --text-white: #ffffff;
+  --text-dim: #cbd5e1;
+}
+
+*, *::before, *::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  -webkit-user-select: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+html, body {
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: #120b0a;
+  font-family: var(--font-body);
+  color: var(--text-white);
+}
+
+/* ==========================================================================
+   TOP GAMILITY RIBBON
+   ========================================================================== */
+.top-nav-ribbon {
+  position: relative;
+  z-index: 100;
+  width: 100%;
+  height: 54px;
+  background: rgba(18, 11, 10, 0.96);
+  border-bottom: 1px solid rgba(245, 158, 11, 0.2);
+  backdrop-filter: blur(8px);
+  display: flex;
+  align-items: center;
+}
+
+.ribbon-container {
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.ribbon-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.ribbon-brand {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text-white);
+  font-family: var(--font-display);
+  font-weight: 800;
+  font-size: 1.15rem;
+  letter-spacing: -0.02em;
+}
+
+.brand-badge {
+  font-size: 0.7rem;
+  font-weight: 700;
+  padding: 2px 7px;
+  border-radius: 999px;
+  background: rgba(245, 158, 11, 0.18);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.35);
+  text-transform: uppercase;
+}
+
+.ribbon-right {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.btn-ribbon-icon {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  color: var(--text-white);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+}
+
+.btn-ribbon-icon:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+.ribbon-back-btn {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  border-radius: 8px;
+  background: rgba(245, 158, 11, 0.15);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  color: #fbbf24;
+  text-decoration: none;
+  font-size: 0.82rem;
+  font-weight: 700;
+  transition: all 0.2s ease;
+}
+
+.ribbon-back-btn:hover {
+  background: rgba(245, 158, 11, 0.25);
+  transform: translateY(-1px);
+}
+
+/* ==========================================================================
+   ARCADE MAIN CONTAINER & VIEWPORT
+   ========================================================================== */
+.arcade-wrapper {
+  width: 100%;
+  height: calc(100vh - 54px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at center, #261614 0%, #110908 100%);
+  padding: 8px;
+}
+
+.game-viewport {
+  position: relative;
+  width: 100%;
+  max-width: 480px;
+  height: min(840px, calc(100vh - 70px));
+  border-radius: 20px;
+  overflow: hidden;
+  box-shadow: 0 16px 48px rgba(0, 0, 0, 0.65), 0 0 0 1px rgba(245, 158, 11, 0.22);
+  display: flex;
+  flex-direction: column;
+  background: #2a1614;
+  cursor: crosshair;
+}
+
+/* Red flash upon receiving damage / bee sting */
+.game-viewport.hit-damage-flash {
+  animation: hurtFlash 0.35s ease-out;
+}
+
+@keyframes hurtFlash {
+  0% { box-shadow: inset 0 0 0 1000px rgba(239, 68, 68, 0.55); }
+  100% { box-shadow: inset 0 0 0 0 rgba(239, 68, 68, 0); }
+}
+
+/* Screen shake */
+.game-viewport.screen-shake {
+  animation: viewportShake 0.4s ease;
+}
+
+@keyframes viewportShake {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-8px, 6px); }
+  40% { transform: translate(8px, -6px); }
+  60% { transform: translate(-5px, 3px); }
+  80% { transform: translate(5px, -3px); }
+}
+
+/* ==========================================================================
+   TOP HUD BAR
+   ========================================================================== */
+.game-hud-bar {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 54px;
+  padding: 0 14px;
+  background: var(--hud-bg);
+  border-bottom: 1px solid var(--hud-border);
+  backdrop-filter: blur(6px);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  z-index: 40;
+}
+
+.hud-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.hud-lbl {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #d97706;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+}
+
+.hud-hearts {
+  display: flex;
+  gap: 3px;
+  font-size: 1.1rem;
+}
+
+.heart-icon {
+  transition: transform 0.25s cubic-bezier(0.175, 0.885, 0.32, 1.275), opacity 0.25s ease;
+}
+
+.heart-icon.lost {
+  opacity: 0.2;
+  filter: grayscale(1);
+  transform: scale(0.8);
+}
+
+.hud-score-group {
+  align-items: center;
+}
+
+.hud-score-display {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+}
+
+.hud-score-val {
+  font-family: var(--font-display);
+  font-size: 1.45rem;
+  font-weight: 900;
+  color: #fff;
+  letter-spacing: -0.01em;
+}
+
+.hud-combo-badge {
+  font-size: 0.65rem;
+  font-weight: 900;
+  padding: 1px 6px;
+  border-radius: 999px;
+  background: linear-gradient(135deg, #ef4444, #f59e0b);
+  color: #fff;
+  box-shadow: 0 2px 6px rgba(239, 68, 68, 0.4);
+  animation: pulseCombo 1s infinite alternate;
+}
+
+@keyframes pulseCombo {
+  0% { transform: scale(0.95); }
+  100% { transform: scale(1.08); }
+}
+
+.hud-actions-group {
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+}
+
+.hud-best-box {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.hud-best-val {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  color: #fbbf24;
+}
+
+.btn-hud-pause {
+  width: 32px;
+  height: 32px;
+  border-radius: 8px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  color: #fff;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.btn-hud-pause:hover {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+/* ==========================================================================
+   ROOM AMBIENT WALLPAPER & HANGING CEILING LAMP
+   ========================================================================== */
+.room-ambient-bg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 1;
+  overflow: hidden;
+  background-color: #2b1715;
+  background-image: 
+    radial-gradient(circle at 50% 18%, rgba(254, 240, 138, 0.32) 0%, rgba(245, 158, 11, 0.12) 35%, rgba(30, 15, 14, 0.95) 75%),
+    repeating-linear-gradient(45deg, rgba(0, 0, 0, 0.04) 0px, rgba(0, 0, 0, 0.04) 20px, transparent 20px, transparent 40px);
+}
+
+/* Ceiling Lamp Assembly */
+.lamp-assembly {
+  position: absolute;
+  top: 54px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  z-index: 2;
+}
+
+.lamp-cord {
+  width: 3px;
+  height: 34px;
+  background: #78350f;
+  box-shadow: 0 0 2px rgba(0,0,0,0.5);
+}
+
+.lamp-shade {
+  width: 80px;
+  height: 32px;
+  background: linear-gradient(180deg, #d97706 0%, #b45309 85%, #78350f 100%);
+  clip-path: polygon(25% 0%, 75% 0%, 100% 100%, 0% 100%);
+  border-radius: 4px 4px 0 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+.lamp-bulb {
+  width: 26px;
+  height: 22px;
+  margin-top: -3px;
+  background: radial-gradient(circle at 50% 40%, #ffffff 0%, #fef08a 60%, #f59e0b 100%);
+  border-radius: 50%;
+  box-shadow: 0 0 24px 8px rgba(253, 224, 71, 0.8), 0 0 60px 20px rgba(245, 158, 11, 0.5);
+  animation: lampBulbFlicker 6s infinite ease-in-out;
+}
+
+@keyframes lampBulbFlicker {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  32% { opacity: 0.94; transform: scale(0.98); }
+  34% { opacity: 1; transform: scale(1); }
+  85% { opacity: 0.92; transform: scale(0.99); }
+  87% { opacity: 1; transform: scale(1); }
+}
+
+.lamp-glow {
+  position: absolute;
+  top: 40px;
+  width: 360px;
+  height: 480px;
+  background: radial-gradient(ellipse at 50% 10%, rgba(254, 240, 138, 0.28) 0%, rgba(245, 158, 11, 0.14) 40%, transparent 70%);
+  pointer-events: none;
+}
+
+/* Wall decor silhouettes */
+.room-decor-wall {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.wall-frame {
+  position: absolute;
+  border: 4px solid #451a03;
+  border-radius: 6px;
+  background: rgba(43, 20, 18, 0.7);
+  box-shadow: 3px 5px 12px rgba(0, 0, 0, 0.4);
+  opacity: 0.4;
+}
+
+.frame-left {
+  top: 180px;
+  left: 20px;
+  width: 50px;
+  height: 70px;
+}
+
+.frame-right {
+  top: 240px;
+  right: 22px;
+  width: 60px;
+  height: 80px;
+}
+
+/* ==========================================================================
+   ACTIVE PLAY STAGE
+   ========================================================================= */
+.mosquito-stage {
+  position: absolute;
+  top: 54px;
+  left: 0;
+  width: 100%;
+  height: calc(100% - 54px);
+  z-index: 10;
+  overflow: hidden;
+}
+
+/* Insects (Mosquitoes & Bees) Base Entity */
+.insect-entity {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+  z-index: 15;
+  transition: transform 0.05s linear;
+  will-change: transform, left, top;
+}
+
+.insect-svg {
+  display: block;
+  filter: drop-shadow(0 4px 6px rgba(0, 0, 0, 0.45));
+}
+
+/* Wings Animation */
+.wing-left {
+  transform-origin: 50% 45%;
+  animation: flutterLeft 0.08s infinite alternate ease-in-out;
+}
+
+.wing-right {
+  transform-origin: 50% 45%;
+  animation: flutterRight 0.08s infinite alternate ease-in-out;
+}
+
+@keyframes flutterLeft {
+  0% { transform: rotate(-25deg) scaleY(1); opacity: 0.85; }
+  100% { transform: rotate(15deg) scaleY(0.6); opacity: 0.5; }
+}
+
+@keyframes flutterRight {
+  0% { transform: rotate(25deg) scaleY(1); opacity: 0.85; }
+  100% { transform: rotate(-15deg) scaleY(0.6); opacity: 0.5; }
+}
+
+/* Golden Queen Sparkle aura */
+.insect-entity.queen-mosquito .insect-svg {
+  filter: drop-shadow(0 0 10px #fbbf24) drop-shadow(0 0 20px #f59e0b);
+}
+
+/* Ninja Mosquito stealth effect */
+.insect-entity.ninja-mosquito .insect-svg {
+  opacity: 0.88;
+}
+
+/* Honeybee gentle hover */
+.insect-entity.honey-bee {
+  animation: beeFloat 0.6s infinite alternate ease-in-out;
+}
+
+@keyframes beeFloat {
+  0% { transform: translate(-50%, -50%) translateY(-2px); }
+  100% { transform: translate(-50%, -50%) translateY(2px); }
+}
+
+/* ==========================================================================
+   ANIMATED FLYSWATTER CURSOR
+   ========================================================================= */
+.swatter-cursor {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 80px;
+  height: 100px;
+  pointer-events: none;
+  z-index: 35;
+  transform: translate(-40px, -34px); /* Perfectly centers the red mesh center (40, 34) on the pointer crosshair */
+  transform-origin: 40px 90px;
+  transition: transform 0.03s linear;
+  display: none; /* Shown dynamically when mouse enters */
+}
+
+.swatter-cursor.swat-active {
+  animation: swatSmack 0.16s ease-out;
+}
+
+@keyframes swatSmack {
+  0% {
+    transform: translate(-40px, -34px) rotate(0deg) scale(1);
+  }
+  40% {
+    transform: translate(-40px, -34px) rotate(-22deg) scale(0.9);
+  }
+  100% {
+    transform: translate(-40px, -34px) rotate(0deg) scale(1);
+  }
+}
+
+/* ==========================================================================
+   VISUAL DECALS & POPUPS (FX OVERLAY)
+   ========================================================================= */
+.fx-overlay {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 25;
+  overflow: hidden;
+}
+
+/* Splat Wall Decal */
+.splat-decal {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  animation: splatFade 2.5s forwards ease-out;
+}
+
+@keyframes splatFade {
+  0% { transform: translate(-50%, -50%) scale(0.4) rotate(0deg); opacity: 1; }
+  15% { transform: translate(-50%, -50%) scale(1.1) rotate(5deg); opacity: 0.95; }
+  30% { transform: translate(-50%, -50%) scale(1) rotate(0deg); opacity: 0.85; }
+  80% { opacity: 0.7; }
+  100% { transform: translate(-50%, -50%) scale(0.95); opacity: 0; }
+}
+
+/* Floating Comic Text Popup */
+.floating-comic-text {
+  position: absolute;
+  font-family: var(--font-display);
+  font-weight: 900;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  text-shadow: 0 2px 4px rgba(0, 0, 0, 0.7);
+  animation: floatPop 0.85s forwards cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  white-space: nowrap;
+}
+
+@keyframes floatPop {
+  0% {
+    transform: translate(-50%, -50%) scale(0.5);
+    opacity: 0;
+  }
+  30% {
+    transform: translate(-50%, -80%) scale(1.25);
+    opacity: 1;
+  }
+  100% {
+    transform: translate(-50%, -130%) scale(0.9);
+    opacity: 0;
+  }
+}
+
+/* Comic Stars FX */
+.comic-star {
+  position: absolute;
+  font-size: 1.1rem;
+  pointer-events: none;
+  animation: starBurst 0.6s forwards ease-out;
+}
+
+@keyframes starBurst {
+  0% { transform: translate(0, 0) scale(0.3); opacity: 1; }
+  100% { transform: translate(var(--tx), var(--ty)) scale(1.2); opacity: 0; }
+}
+
+/* ==========================================================================
+   OVERLAYS & MODALS
+   ========================================================================= */
+.game-overlay-modal {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(18, 11, 10, 0.88);
+  backdrop-filter: blur(8px);
+  z-index: 50;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 18px;
+}
+
+.overlay-card {
+  width: 100%;
+  max-width: 380px;
+  background: var(--card-bg);
+  border: 1px solid rgba(245, 158, 11, 0.3);
+  border-radius: 20px;
+  padding: 24px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.7);
+  animation: modalPop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+@keyframes modalPop {
+  0% { transform: scale(0.85); opacity: 0; }
+  100% { transform: scale(1); opacity: 1; }
+}
+
+.overlay-icon-badge {
+  width: 68px;
+  height: 68px;
+  border-radius: 50%;
+  background: radial-gradient(circle, rgba(239, 68, 68, 0.25) 0%, rgba(245, 158, 11, 0.1) 100%);
+  border: 2px solid rgba(245, 158, 11, 0.4);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2.2rem;
+  margin-bottom: 12px;
+}
+
+.overlay-icon-badge .animated-icon {
+  animation: wobbleBadge 1.4s infinite ease-in-out;
+}
+
+@keyframes wobbleBadge {
+  0%, 100% { transform: rotate(0deg); }
+  25% { transform: rotate(-10deg) scale(1.05); }
+  75% { transform: rotate(10deg) scale(1.05); }
+}
+
+.overlay-title {
+  font-family: var(--font-display);
+  font-size: 1.6rem;
+  font-weight: 900;
+  letter-spacing: -0.02em;
+  color: #fff;
+  margin-bottom: 6px;
+}
+
+.overlay-tagline {
+  font-size: 0.85rem;
+  color: var(--text-dim);
+  line-height: 1.4;
+  margin-bottom: 16px;
+}
+
+/* Roster Grid */
+.roster-preview-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 14px;
+}
+
+.roster-item {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 8px 4px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.roster-ico {
+  font-size: 1.3rem;
+  margin-bottom: 2px;
+}
+
+.roster-name {
+  font-size: 0.65rem;
+  font-weight: 700;
+  color: var(--text-white);
+}
+
+.roster-pts {
+  font-size: 0.62rem;
+  font-weight: 800;
+  color: #fbbf24;
+}
+
+/* Hazard Warning Banner */
+.hazard-warning-pill {
+  width: 100%;
+  background: rgba(239, 68, 68, 0.15);
+  border: 1px solid rgba(239, 68, 68, 0.35);
+  border-radius: 10px;
+  padding: 10px 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 20px;
+  text-align: left;
+}
+
+.pill-hazard-icon {
+  font-size: 1.6rem;
+  flex-shrink: 0;
+}
+
+.pill-hazard-text {
+  display: flex;
+  flex-direction: column;
+}
+
+.pill-hazard-text strong {
+  font-size: 0.75rem;
+  font-weight: 800;
+  color: #f87171;
+}
+
+.pill-hazard-text span {
+  font-size: 0.72rem;
+  color: #fca5a5;
+  line-height: 1.25;
+}
+
+/* Buttons */
+.btn-play-primary {
+  position: relative;
+  width: 100%;
+  padding: 13px 24px;
+  border-radius: 12px;
+  background: linear-gradient(135deg, #ef4444 0%, #dc2626 50%, #b91c1c 100%);
+  border: none;
+  cursor: pointer;
+  color: #fff;
+  font-family: var(--font-display);
+  font-size: 1.05rem;
+  font-weight: 900;
+  letter-spacing: 0.02em;
+  box-shadow: 0 6px 18px rgba(220, 38, 38, 0.45);
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+  overflow: hidden;
+}
+
+.btn-play-primary:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 24px rgba(220, 38, 38, 0.6);
+}
+
+.btn-play-primary:active {
+  transform: translateY(1px);
+}
+
+.btn-action-outline {
+  width: 100%;
+  padding: 11px 20px;
+  border-radius: 12px;
+  background: rgba(255, 255, 255, 0.08);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  color: #fff;
+  text-decoration: none;
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  font-weight: 800;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.btn-action-outline:hover {
+  background: rgba(255, 255, 255, 0.16);
+  transform: translateY(-1px);
+}
+
+.overlay-actions {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+/* Game Over Card Details */
+.gameover-score-banner {
+  width: 100%;
+  background: rgba(0, 0, 0, 0.35);
+  border-radius: 12px;
+  padding: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  margin-bottom: 14px;
+}
+
+.score-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.score-divider {
+  width: 1px;
+  height: 36px;
+  background: rgba(255, 255, 255, 0.15);
+}
+
+.col-lbl {
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: #94a3b8;
+  letter-spacing: 0.05em;
+}
+
+.col-val {
+  font-family: var(--font-display);
+  font-size: 1.5rem;
+  font-weight: 900;
+}
+
+.highlight-gold {
+  color: #fbbf24;
+}
+
+.gameover-stats-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 8px;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.stat-card {
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-icon {
+  font-size: 1.1rem;
+}
+
+.card-val {
+  font-family: var(--font-display);
+  font-size: 1rem;
+  font-weight: 800;
+  margin: 2px 0;
+}
+
+.card-label {
+  font-size: 0.62rem;
+  color: #94a3b8;
+  font-weight: 700;
+}
+
+/* Pause Stats */
+.overlay-stats-summary {
+  display: flex;
+  gap: 12px;
+  width: 100%;
+  margin-bottom: 18px;
+}
+
+.stat-pill {
+  flex: 1;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 10px;
+  padding: 10px;
+  display: flex;
+  flex-direction: column;
+}
+
+.stat-lbl {
+  font-size: 0.62rem;
+  color: #94a3b8;
+  font-weight: 800;
+}
+
+.stat-val {
+  font-family: var(--font-display);
+  font-size: 1.2rem;
+  font-weight: 900;
+  color: #fbbf24;
+}
+
+/* ==========================================================================
+   MOBILE RESPONSIVENESS
+   ========================================================================== */
+@media (max-width: 520px) {
+  .arcade-wrapper {
+    padding: 0;
+    height: calc(100vh - 54px);
+  }
+
+  .game-viewport {
+    max-width: 100%;
+    height: 100%;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+  }
+
+  /* On mobile touch devices, hide the desktop cursor */
+  .swatter-cursor {
+    display: none !important;
+  }
+}
